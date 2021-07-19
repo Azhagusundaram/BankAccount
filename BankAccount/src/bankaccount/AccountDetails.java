@@ -1,12 +1,10 @@
 package bankaccount;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
-public class accountdetails {
+public class AccountDetails {
 
 	public static void main(String[] args) {
 		HashMap <Integer,Account> user_details=new HashMap<Integer,Account>();
@@ -42,14 +40,14 @@ public class accountdetails {
 					state.executeUpdate(sql);
 				}
 				else if(decision==3) {
-					ResultSet res=state.executeQuery("Select * from user_details");
-					while(res.next()) {
-						user_details.put(res.getInt(2),new Account(res.getString(1),res.getInt(2),res.getString(3),res.getInt(4)));
+					ResultSet result1=state.executeQuery("Select * from user_details");
+					while(result1.next()) {
+						user_details.put(result1.getInt(2),new Account(result1.getString(1),result1.getInt(2),result1.getString(3),result1.getInt(4)));
 					}
-					ResultSet res1=state.executeQuery("Select * from account");
-					while(res1.next()) {
-						if(user_details.containsKey(res1.getInt(2))) {
-							user_details.get(res1.getInt(2)).addAccount(res1.getInt(1),res1.getInt(3));
+					ResultSet result2=state.executeQuery("Select * from account");
+					while(result2.next()) {
+						if(user_details.containsKey(result2.getInt(2))) {
+							user_details.get(result2.getInt(2)).addAccount(result2.getInt(1),result2.getInt(3));
 						}
 					}
 					System.out.println("Enter the Customer id");
@@ -78,7 +76,6 @@ class Account{
 	String name,address;
 	int phonenumber;
 	int customerid;
-	ArrayList<String>account_details=new ArrayList<String>();
 	HashMap<Integer,Integer>accountdetails=new HashMap<Integer,Integer>();
 	public Account(String name,int customerid,String address,int phonenumber) {
 		this.name=name;
