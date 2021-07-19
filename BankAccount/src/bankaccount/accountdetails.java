@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 public class accountdetails {
 
@@ -43,18 +44,20 @@ public class accountdetails {
 				else if(decision==3) {
 					ResultSet res=state.executeQuery("Select * from user_details");
 					while(res.next()) {
-						user_details.put(res.getInt(2),new Account(res.getString(1),res.getString(3),res.getInt(4)));
+						user_details.put(res.getInt(2),new Account(res.getString(1),res.getInt(2),res.getString(3),res.getInt(4)));
 					}
 					ResultSet res1=state.executeQuery("Select * from account");
 					while(res1.next()) {
 						if(user_details.containsKey(res1.getInt(2))) {
-							user_details.get(res1.getInt(2)).addAccount(res1.getInt(1)+"\t"+res1.getInt(2)+"\t"+res1.getInt(3));
+							user_details.get(res1.getInt(2)).addAccount(res1.getInt(1),res1.getInt(3));
 						}
 					}
 					System.out.println("Enter the Customer id");
 					int id=scan.nextInt();
 					if(user_details.containsKey(id)) {
-						user_details.get(id).getAccount();
+						System.out.println("1.Check Individual Account 2.All Accounts");
+						int decision1=scan.nextInt();
+						user_details.get(id).getAccount(decision1);
 					}
 					else {
 						System.out.println("Customer id Mismatched");
@@ -65,7 +68,6 @@ public class accountdetails {
 					break;
 				}
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -75,24 +77,43 @@ public class accountdetails {
 class Account{
 	String name,address;
 	int phonenumber;
+	int customerid;
 	ArrayList<String>account_details=new ArrayList<String>();
-	public Account(String name,String address,int phonenumber) {
+	HashMap<Integer,Integer>accountdetails=new HashMap<Integer,Integer>();
+	public Account(String name,int customerid,String address,int phonenumber) {
 		this.name=name;
 		this.address=address;
 		this.phonenumber=phonenumber;
+		this.customerid=customerid;
 	}
-	public void addAccount(String details) {
-		account_details.add(details);
+	public void addAccount(int Accountnumber,int balance) {
+		accountdetails.put(Accountnumber, balance);
 	}
-	public void getAccount() {
-		Iterator i=account_details.iterator();
-		if(account_details.size()==0) {
-			System.out.println("There is No Account for this Customer id");
+	public void getAccount(int decision1) {
+		if(decision1==1) {
+			Scanner scan=new Scanner(System.in);
+			System.out.println("Enter the Account Number");
+			int Accountnumber=scan.nextInt();
+			if(accountdetails.size()==0) {
+				System.out.println("There is No Account for this Customer id");
+			}
+			else if(accountdetails.containsKey(Accountnumber)) {
+				System.out.println("Account Number\tCustomer id\tBalance");
+				System.out.println(Accountnumber+"\t"+customerid+"\t"+accountdetails.get(Accountnumber));
+			}
+			else {
+				System.out.println("Account Number Mismatched");
+			}
 		}
-		else {
-			System.out.println("Account Number\tCustomer id\tBalance");
-			while(i.hasNext()) {
-				System.out.println(i.next());
+		else if(decision1==2) {
+			if(accountdetails.size()==0) {
+				System.out.println("There is No Account for this Customer id");
+			}
+			else {
+				System.out.println("Account Number\tCustomer id\tBalance");
+				for(Map.Entry<Integer,Integer>map:accountdetails.entrySet()) {
+					System.out.println(map.getKey()+"\t"+customerid+"\t"+map.getValue());
+				}
 			}
 		}
 	}
