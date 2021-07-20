@@ -6,10 +6,9 @@ import java.util.Scanner;
 public class AccountDetails {
 	static HashMap <Integer,CustomerInfo> user_details=new HashMap<Integer,CustomerInfo>();
 	static HashMap<Integer,AccountInfo>account_details=new HashMap<Integer,AccountInfo>();
-	static HashMap<Integer,Integer>connect_details=new HashMap<Integer,Integer>();
 	public static void main(String[] args) throws SQLException {
-			while(true) {
-				Scanner scan=new Scanner(System.in);
+		Scanner scan=new Scanner(System.in);	
+		while(true) {
 				System.out.println("1.Create customer id 2.Create Account 3.Check Balance 4.Exit");
 				int decision=scan.nextInt();
 				if(decision==1) {
@@ -37,5 +36,6 @@ public class AccountDetails {
 					break;
 				}
 			}
+			scan.close();
 	}
 }
