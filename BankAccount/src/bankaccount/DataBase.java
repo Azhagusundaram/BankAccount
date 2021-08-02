@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-class DataBase extends AccountDetails{
+class DataBase extends DataBaseDriver {
 	static Scanner scan=new Scanner(System.in);
 	public static void setCustomerInfo() throws SQLException {
 		try(Statement state=setConnection()){

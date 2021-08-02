@@ -3,7 +3,7 @@ package bankaccount;
 import java.util.HashSet;
 import java.util.Scanner;
 
-public class BankBalance extends AccountDetails{
+public class BankBalance extends DataBaseDriver {
 	public static void getAccount(int decision,int id) {
 		Scanner scan=new Scanner(System.in);
 		if(decision==1) {
