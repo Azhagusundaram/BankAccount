@@ -1,0 +1,33 @@
+package com.bankaccountmanagement;
+
+import java.util.HashMap;
+
+public class AccountManagement {
+    private HashMap <Integer,CustomerInfo> user_details=new HashMap<Integer,CustomerInfo>();
+    private HashMap<Integer,HashMap<Long,AccountInfo>>all_details=new HashMap<Integer,HashMap<Long,AccountInfo>>();
+    private static AccountManagement object=null;
+    private AccountManagement() {
+
+    }
+    public static AccountManagement getObject() {
+        if(object==null) {
+            object=new AccountManagement();
+        }
+        return object;
+    }
+    public void setUserDetails(CustomerInfo customer) {
+        user_details.put(customer.getCustomerId(),customer);
+    }
+    public void setAllDetails(int id,HashMap<Long,AccountInfo>account) {
+        all_details.put(id,account);
+    }
+    public HashMap<Integer,HashMap<Long,AccountInfo>> getAccountDetails() {
+        return all_details;
+    }
+    public HashMap<Long,AccountInfo> getAccount(int id) {
+        return all_details.get(id);
+    }
+    public HashMap<Integer,CustomerInfo> getCustomerAccount() {
+        return user_details;
+    }
+}
