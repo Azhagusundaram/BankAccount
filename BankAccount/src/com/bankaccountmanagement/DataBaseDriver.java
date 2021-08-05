@@ -3,6 +3,7 @@ package com.bankaccountmanagement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 public class DataBaseDriver {
 	static int operations=0;
 	public static void main(String[] args) throws SQLException {
@@ -10,52 +11,59 @@ public class DataBaseDriver {
 		DataBase dataBase=new DataBase();
 		BankBalance balance=new BankBalance();
 		while(true) {
-			System.out.println("1.Create customer id 2.Create Account 3.Check Balance 4.Exit");
+			System.out.println("1.Create customer id \n2.Create Account \n3.Check Balance \n4.Exit");
 			int decision=scan.nextInt();
 			if(decision==1) {
-				ArrayList customers=new ArrayList();
-				System.out.println("Enter the number of customers");
+				ArrayList<CustomerInfo> customers =new ArrayList<CustomerInfo>();
+				ArrayList<AccountInfo> accounts =new ArrayList<AccountInfo>();
+				System.out.print("Enter the number of customers : ");
 				int number =scan.nextInt();
+				scan.nextLine();
 				for(int i=0;i<number;i++) {
-					System.out.println("Enter the Name");
-					customers.add(scan.nextLine());
-					System.out.println("Enter the Address");
-					customers.add(scan.nextLine());
-					System.out.println("Enter the Customer Id");
-					customers.add(scan.nextInt());
-					System.out.println("Enter the Phone number");
-					customers.add(scan.nextLong());
+					CustomerInfo customer =new CustomerInfo();
+					AccountInfo account =new AccountInfo();
+					System.out.print("Enter the Name : ");
+					customer.setName(scan.nextLine());
+					System.out.print("Enter the Address : ");
+					customer.setAddress(scan.nextLine());
+					System.out.print("Enter the Phone number : ");
+					customer.setPhoneNumber(scan.nextLong());
+					System.out.print("Enter the Account Number : ");
+					account.setAccountNumber(scan.nextLong());
+					System.out.print("Enter the Balance : ");
+					account.setBalance(scan.nextDouble());
 					scan.nextLine();
-
+					customers.add(customer);
+					accounts.add(account);
 				}
-				dataBase.getCustomerInfo(customers,number);
-
+				dataBase.setCustomerInfo(customers,number);
+				dataBase.setAccountInfo(accounts,number);
 			}
 			else if(decision==2) {
-				ArrayList accounts=new ArrayList();
-				System.out.println("Enter the number of Accounts");
+				ArrayList<AccountInfo> accounts =new ArrayList<AccountInfo>();
+				System.out.print("Enter the number of Accounts : ");
 				int number=scan.nextInt();
 				for(int i=0;i<number;i++) {
-					System.out.println("Enter the Account Number");
-					accounts.add(scan.nextLong());
-					System.out.println("Enter the Customer Id");
-					accounts.add(scan.nextInt());
-					System.out.println("Enter the Balance");
-					accounts.add(scan.nextFloat());
+					AccountInfo account =new AccountInfo();
+					System.out.print("Enter the Account Number : ");
+					account.setAccountNumber(scan.nextLong());
+					System.out.print("Enter the Customer Id : ");
+					account.setCustomerId(scan.nextInt());
+					System.out.print("Enter the Balance : ");
+					account.setBalance(scan.nextDouble());
 					scan.nextLine();
+					accounts.add(account);
 				}
-				dataBase.getAccountInfo(accounts,number);
+				dataBase.setAccountInfo(accounts,number);
 			}
 			else if(decision==3) {
-				System.out.println("Enter the Customer id");
+				System.out.print("Enter the Customer id : ");
 				int id=scan.nextInt();
-				System.out.println("Enter the Account Number of Individual Account otherwise enter 0");
+				System.out.print("Enter the Account Number of Individual Account otherwise enter 0 : ");
 				long accountNumber=scan.nextInt();
-				if(operations!=0) {
 					dataBase.setAccountInfo();
 					dataBase.setCustomerInfo();
-				}
-				if(AccountManagement.getObject().getCustomerAccount().containsKey(id)) {
+				if(AccountManagement.OBJECT.getCustomerAccount().containsKey(id)) {
 					if(accountNumber!=0) {
 						balance.getAccount(accountNumber,id);
 					}
@@ -68,7 +76,7 @@ public class DataBaseDriver {
 				}
 			}
 			else if(decision==4) {
-				dataBase.closeconnection();
+				dataBase.closeConnection();
 				System.out.println("Thank you");
 				break;
 			}

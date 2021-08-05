@@ -3,14 +3,14 @@ package com.bankaccountmanagement;
 public class AccountInfo {
 	private long accountNumber;
 	private int customerId;
-	private float balance;
+	private double balance;
 	public void setAccountNumber(long accountNumber) {
 		this.accountNumber=accountNumber;
 	}
 	public void setCustomerId(int customerId) {
 		this.customerId=customerId;
 	}
-	public void setBalance(float balance) {
+	public void setBalance(double balance) {
 		this.balance=balance;
 	}
 	public long getAccountNumber() {
@@ -19,7 +19,11 @@ public class AccountInfo {
 	public int getCustomerId() {
 		return customerId;
 	}
-	public float getbalance() {
+	public double getBalance() {
 		return balance;
+	}
+	@Override
+	public String toString(){
+		return accountNumber+"\t"+customerId+"\t"+balance;
 	}
 }
