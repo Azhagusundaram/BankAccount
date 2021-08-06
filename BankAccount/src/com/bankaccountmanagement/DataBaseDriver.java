@@ -5,70 +5,70 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataBaseDriver {
-	static int operations=0;
+	static boolean operations=true;
 	public static void main(String[] args) throws SQLException {
 		Scanner scan=new Scanner(System.in);
 		DataBase dataBase=new DataBase();
 		BankBalance balance=new BankBalance();
+		dataBase.setDataBase(operations);
 		while(true) {
-			System.out.println("1.Create customer id \n2.Create Account \n3.Check Balance \n4.Exit");
+			System.out.println("1.New customer\n2.New Account \n3.Check Balance \n4.Exit");
 			int decision=scan.nextInt();
 			if(decision==1) {
-				ArrayList<CustomerInfo> customers =new ArrayList<CustomerInfo>();
-				ArrayList<AccountInfo> accounts =new ArrayList<AccountInfo>();
 				System.out.print("Enter the number of customers : ");
 				int number =scan.nextInt();
 				scan.nextLine();
+				ArrayList<ArrayList> customers = new ArrayList<ArrayList>(number*2);
 				for(int i=0;i<number;i++) {
-					CustomerInfo customer =new CustomerInfo();
-					AccountInfo account =new AccountInfo();
+					ArrayList array=new ArrayList<>(2);
 					System.out.print("Enter the Name : ");
-					customer.setName(scan.nextLine());
+					String name=scan.nextLine();
 					System.out.print("Enter the Address : ");
-					customer.setAddress(scan.nextLine());
+					String address=scan.nextLine();
 					System.out.print("Enter the Phone number : ");
-					customer.setPhoneNumber(scan.nextLong());
-					System.out.print("Enter the Account Number : ");
-					account.setAccountNumber(scan.nextLong());
-					System.out.print("Enter the Balance : ");
-					account.setBalance(scan.nextDouble());
+					long phone=scan.nextLong();
+					System.out.print("Enter the Deposit Amount : ");
+					double amount=scan.nextDouble();
 					scan.nextLine();
-					customers.add(customer);
-					accounts.add(account);
+					CustomerInfo customer = Helper.getCustomerInfo(name, address, phone);
+					AccountInfo account = Helper.getAccountInfo( 0, amount);
+					array.add(customer);
+					array.add(account);
+					customers.add(array);
 				}
-				dataBase.setCustomerInfo(customers,number);
-				dataBase.setAccountInfo(accounts,number);
+				String outputString =dataBase.uploadCustomerInfo(customers,number);
+				System.out.println(outputString);
 			}
 			else if(decision==2) {
-				ArrayList<AccountInfo> accounts =new ArrayList<AccountInfo>();
 				System.out.print("Enter the number of Accounts : ");
-				int number=scan.nextInt();
-				for(int i=0;i<number;i++) {
-					AccountInfo account =new AccountInfo();
-					System.out.print("Enter the Account Number : ");
-					account.setAccountNumber(scan.nextLong());
 					System.out.print("Enter the Customer Id : ");
-					account.setCustomerId(scan.nextInt());
-					System.out.print("Enter the Balance : ");
-					account.setBalance(scan.nextDouble());
-					scan.nextLine();
-					accounts.add(account);
-				}
-				dataBase.setAccountInfo(accounts,number);
+					int id=scan.nextInt();
+					if(Helper.CheckCustomerId(id)){
+						System.out.print("Enter the Deposit Amount : ");
+						double amount=scan.nextDouble();
+						scan.nextLine();
+						AccountInfo account = Helper.getAccountInfo( id, amount);
+						String outputString =dataBase.uploadAccountInfo(account);
+						System.out.println(outputString);
+					}
+					else{
+						System.out.println("Invalid CustomerId");
+					}
 			}
 			else if(decision==3) {
 				System.out.print("Enter the Customer id : ");
 				int id=scan.nextInt();
 				System.out.print("Enter the Account Number of Individual Account otherwise enter 0 : ");
 				long accountNumber=scan.nextInt();
-					dataBase.setAccountInfo();
-					dataBase.setCustomerInfo();
+				dataBase.setDataBase(operations);
 				if(AccountManagement.OBJECT.getCustomerAccount().containsKey(id)) {
 					if(accountNumber!=0) {
-						balance.getAccount(accountNumber,id);
+						String outputString =balance.getAccount(accountNumber,id);
+						System.out.println(outputString);
 					}
-					else if(accountNumber==0) {
-						balance.getAccount(id);
+					else {
+						String outputString =balance.getAccount(id);
+						System.out.println(outputString);
 					}
 				}
 				else {
@@ -80,7 +80,12 @@ public class DataBaseDriver {
 				System.out.println("Thank you");
 				break;
 			}
+			else{
+				System.out.println("Invalid Input");
+			}
 		}
 		scan.close();
 	}
+
+
 }
