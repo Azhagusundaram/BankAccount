@@ -36,8 +36,8 @@ public class DataBaseDriver {
 					array.add(account);
 					customers.add(array);
 				}
-				String outputString =dataBase.uploadCustomerInfo(customers,number);
-				System.out.println(outputString);
+				dataBase.uploadCustomerInfo(customers,number);
+				System.out.println(Helper.getOutput());
 			}
 			else if(decision==2) {
 				System.out.print("Enter the number of Accounts : ");
@@ -48,8 +48,8 @@ public class DataBaseDriver {
 						double amount=scan.nextDouble();
 						scan.nextLine();
 						AccountInfo account = Helper.getAccountInfo( id, amount);
-						String outputString =dataBase.uploadAccountInfo(account);
-						System.out.println(outputString);
+						dataBase.uploadAccountInfo(account);
+						System.out.println(Helper.getOutput());
 					}
 					else{
 						System.out.println("Invalid CustomerId");

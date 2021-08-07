@@ -24,6 +24,6 @@ public class AccountInfo {
 	}
 	@Override
 	public String toString(){
-		return "\nAccount Number : "+accountNumber+"\nCustomer Id : "+customerId+"\n Balance : "+balance;
+		return  "\nAccount Number : "+accountNumber+"" + "\nCustomer Id    : "+customerId+"" + "\nBalance        : "+balance;
 	}
 }

@@ -28,7 +28,7 @@ public class BankBalance {
 			String str="";
 			while(iterate.hasNext()){
 				Map.Entry<Long,AccountInfo> map = (Map.Entry<Long, AccountInfo>) iterate.next();
-				str+="\n"+map.toString();
+				str+="\n"+map.getValue().toString();
 			}
 			return str;
 		}
