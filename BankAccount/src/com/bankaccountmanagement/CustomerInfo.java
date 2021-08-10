@@ -28,4 +28,8 @@ public class CustomerInfo {
 	public int getCustomerId() {
 		return customerId;
 	}
+	public String toString(){
+		return  "Name         : "+name+ "" + "\nAddress      : "+address+ "\nPhone Number : "+phoneNumber+ "\nCustomer Id  : "+customerId;
+
+	}
 }

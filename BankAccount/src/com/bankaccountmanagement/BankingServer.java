@@ -2,15 +2,15 @@ package com.bankaccountmanagement;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
-public class DataBaseDriver {
-	static boolean operations=true;
+public class BankingServer {
+
 	public static void main(String[] args) throws SQLException {
 		Scanner scan=new Scanner(System.in);
-		DataBase dataBase=new DataBase();
-		BankBalance balance=new BankBalance();
-		dataBase.setDataBase(operations);
+		ProgramDriver driver=new ProgramDriver();
+		driver.setDataBase();
 		while(true) {
 			System.out.println("1.New customer\n2.New Account \n3.Check Balance \n4.Exit");
 			int decision=scan.nextInt();
@@ -18,7 +18,7 @@ public class DataBaseDriver {
 				System.out.print("Enter the number of customers : ");
 				int number =scan.nextInt();
 				scan.nextLine();
-				ArrayList<ArrayList> customers = new ArrayList<ArrayList>(number*2);
+				ArrayList<ArrayList> customers = new ArrayList<>(number);
 				for(int i=0;i<number;i++) {
 					ArrayList array=new ArrayList<>(2);
 					System.out.print("Enter the Name : ");
@@ -36,20 +36,19 @@ public class DataBaseDriver {
 					array.add(account);
 					customers.add(array);
 				}
-				dataBase.uploadCustomerInfo(customers,number);
-				System.out.println(Helper.getOutput());
+				HashMap<String,ArrayList<ArrayList>> newCustomer =driver.addNewCustomer(customers);
+				System.out.println(newCustomer);
 			}
 			else if(decision==2) {
-				System.out.print("Enter the number of Accounts : ");
 					System.out.print("Enter the Customer Id : ");
 					int id=scan.nextInt();
-					if(Helper.CheckCustomerId(id)){
+					if(driver.checkCustomerId(id)){
 						System.out.print("Enter the Deposit Amount : ");
 						double amount=scan.nextDouble();
 						scan.nextLine();
 						AccountInfo account = Helper.getAccountInfo( id, amount);
-						dataBase.uploadAccountInfo(account);
-						System.out.println(Helper.getOutput());
+						HashMap<String,AccountInfo> newAccount=driver.addNewAccount(account);
+						System.out.println(newAccount);
 					}
 					else{
 						System.out.println("Invalid CustomerId");
@@ -57,26 +56,25 @@ public class DataBaseDriver {
 			}
 			else if(decision==3) {
 				System.out.print("Enter the Customer id : ");
-				int id=scan.nextInt();
+				int customerId =scan.nextInt();
 				System.out.print("Enter the Account Number of Individual Account otherwise enter 0 : ");
 				long accountNumber=scan.nextInt();
-				dataBase.setDataBase(operations);
-				if(AccountManagement.OBJECT.getCustomerAccount().containsKey(id)) {
+				if(driver.checkCustomerId(customerId)) {
 					if(accountNumber!=0) {
-						String outputString =balance.getAccount(accountNumber,id);
-						System.out.println(outputString);
+						String str=driver.getAccount(accountNumber, customerId);
+						System.out.println(str);
 					}
 					else {
-						String outputString =balance.getAccount(id);
-						System.out.println(outputString);
+						ArrayList<String> array=driver.getAccount(customerId);
+						System.out.println(array);
 					}
 				}
 				else {
-					System.out.println("Customer id Mismatched");
+					System.out.println("Invalid Customer id ");
 				}
 			}
 			else if(decision==4) {
-				dataBase.closeConnection();
+				driver.closeConnection();
 				System.out.println("Thank you");
 				break;
 			}

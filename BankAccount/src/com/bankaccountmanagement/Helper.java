@@ -1,9 +1,6 @@
 package com.bankaccountmanagement;
+public class Helper{
 
-public class Helper {
-    public static int lastCustomerId =0;
-    public static long lastaccount =99999;
-    public static String output="";
     public static AccountInfo getAccountInfo(int id, double amount) {
         AccountInfo account =new AccountInfo();
         account.setCustomerId(id);
@@ -32,15 +29,5 @@ public class Helper {
         customer.setPhoneNumber(phone);
         return customer;
     }
-    public static boolean CheckCustomerId(int id){
-        return AccountManagement.OBJECT.getCustomerAccount().containsKey(id);
-    }
-    public static void setOutput(String str){
-       output+=str;
-    }
-    public static String getOutput(){
-        String str=output;
-        output=null;
-        return str;
-    }
+
 }
