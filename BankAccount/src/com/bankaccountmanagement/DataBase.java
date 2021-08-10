@@ -20,6 +20,7 @@ public class DataBase {
 						prepState.setString(1, tempCustomer.getName());
 						prepState.setString(2, tempCustomer.getAddress());
 						prepState.setLong(3, tempCustomer.getPhoneNumber());
+						prepState.addBatch();
 						prepState.executeUpdate();
 						result = prepState.getGeneratedKeys();
 						result.next();
@@ -28,7 +29,6 @@ public class DataBase {
 					} catch (SQLException e) {
 						customerIds.add(0);
 					}
-
 				}
 			}
 			finally {
