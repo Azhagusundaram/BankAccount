@@ -1,7 +1,5 @@
 package com.bankaccountmanagement;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +9,7 @@ import java.util.Map;
 public class ProgramDriver {
 
     DataBase dataBase=new DataBase();
+
     public HashMap<String,ArrayList<ArrayList>> addNewCustomer(ArrayList<ArrayList>customers) throws SQLException {
         ArrayList<Integer> customerIds = dataBase.uploadCustomerInfo(customers);
         HashMap<String,ArrayList<ArrayList>> newCustomer=new HashMap();
@@ -20,37 +19,35 @@ public class ProgramDriver {
             ArrayList temp=customers.get(i);
             CustomerInfo tempCustomer = (CustomerInfo)temp.get(0);
             AccountInfo tempAccount = (AccountInfo) temp.get(1);
-
+            ArrayList customerAccount =new ArrayList();
             if(customerIds.get(i)!=0){
                 int customerId=customerIds.get(i);
                 tempCustomer.setCustomerId(customerId);
                 tempAccount.setCustomerId(customerId);
-
                 Long accountNumber=dataBase.uploadAccountInfo(tempAccount);
                 if(accountNumber!=0){
                     tempAccount.setAccountNumber(accountNumber);
                     setCustomerHashMap(tempCustomer);
                     setAccountHashMap(tempAccount);
-                    ArrayList successAccount=new ArrayList();
-                    successAccount.add(tempCustomer);
-                    successAccount.add(tempAccount);
-                    successCustomerDetails.add(successAccount);
+                    customerAccount.add(tempCustomer);
+                    customerAccount.add(tempAccount);
+                    successCustomerDetails.add(customerAccount);
                     newCustomer.put("Success",successCustomerDetails);
                 }
                 else{
+                    dataBase.deleteCustomerInfo(customerId);
                     tempCustomer.setCustomerId(0);
                     tempAccount.setCustomerId(0);
-                    ArrayList failureCustomer=new ArrayList();
-                    failureCustomer.add(tempCustomer);
-                    failureCustomer.add(tempAccount);
+                    customerAccount.add(tempCustomer);
+                    customerAccount.add(tempAccount);
+                    failureCustomerDetails.add(customerAccount);
                     newCustomer.put("Failure",failureCustomerDetails);
                 }
-
             }
             else{
-                ArrayList failureCustomer=new ArrayList();
-                failureCustomer.add(tempCustomer);
-                failureCustomer.add(tempAccount);
+                customerAccount.add(tempCustomer);
+                customerAccount.add(tempAccount);
+                failureCustomerDetails.add(customerAccount);
                 newCustomer.put("Failure",failureCustomerDetails);
             }
         }
@@ -81,7 +78,7 @@ public class ProgramDriver {
     public void setAccountHashMap(AccountInfo account){
         AccountManagement.OBJECT.setAccountDetails(account);
     }
-    public void setCustomerHashMap(@NotNull ArrayList<CustomerInfo>customer){
+    public void setCustomerHashMap( ArrayList<CustomerInfo>customer){
         for(int i=0;i< customer.size();i++){
             setCustomerHashMap(customer.get(i));
         }

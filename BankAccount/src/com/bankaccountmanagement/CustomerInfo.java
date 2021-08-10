@@ -29,7 +29,7 @@ public class CustomerInfo {
 		return customerId;
 	}
 	public String toString(){
-		return  "Name         : "+name+ "" + "\nAddress      : "+address+ "\nPhone Number : "+phoneNumber+ "\nCustomer Id  : "+customerId;
+		return  "\nName         : "+name+ "" + "\nAddress      : "+address+ "\nPhone Number : "+phoneNumber+ "\nCustomer Id  : "+customerId;
 
 	}
 }
