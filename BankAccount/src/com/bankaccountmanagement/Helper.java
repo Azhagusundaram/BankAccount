@@ -1,4 +1,5 @@
 package com.bankaccountmanagement;
+
 public class Helper{
 
     public static AccountInfo getAccountInfo(int id, double amount) {
@@ -29,5 +30,13 @@ public class Helper{
         customer.setPhoneNumber(phone);
         return customer;
     }
-
+//    public static DataBase chooseDatabase() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+//        FileReader fileReader=new FileReader("interfaces.properties");
+//        Properties prop=new Properties();
+//        prop.load(fileReader);
+//        String className=prop.getProperty("mysql");
+//        Class c1 = Class.forName(className);
+//        DataBase database = (DataBase)c1.newInstance();
+//        return database;
+//    }
 }

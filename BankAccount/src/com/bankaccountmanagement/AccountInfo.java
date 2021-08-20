@@ -3,7 +3,7 @@ package com.bankaccountmanagement;
 public class AccountInfo {
 	private long accountNumber;
 	private int customerId;
-	private double balance;
+	private double balance=0;
 	public void setAccountNumber(long accountNumber) {
 		this.accountNumber=accountNumber;
 	}
@@ -11,7 +11,7 @@ public class AccountInfo {
 		this.customerId=customerId;
 	}
 	public void setBalance(double balance) {
-		this.balance=balance;
+		this.balance+=balance;
 	}
 	public long getAccountNumber() {
 		return accountNumber;
